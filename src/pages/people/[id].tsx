@@ -1,42 +1,42 @@
-import Navbar from "../../components/Navbar"
+import Navbar from "../../components/Navbar";
 import NextLink from "next/link";
-import { Box, Link } from "@chakra-ui/react";
-import { getPeopleByID,getStarshipByID } from "../../services/swapi";
+import { Box, Link, Heading } from "@chakra-ui/react";
+import { getPeopleByID, getStarshipByID } from "../../services/swapi";
 
-
-
-const people = ({ person, starships }) => {
-
-    //extracting last 2 digits
-    const result = {};
-    starships.forEach((starship) => {
+const People = ({ person, starships }) => {
+  // Extracting last 2 digits
+  const result = {};
+  starships.forEach((starship) => {
     const url = starship.url;
     const id = url.split("/");
-    result[url] = id[id.length-2];
-   });
+    result[url] = id[id.length - 2];
+  });
 
   return (
-    <div>
+    <Box>
       <Navbar />
-        <h1>
-            I am {person.name}. My starships are listed below:
-        </h1>     
-        
-          {starships.map(( starship, index) => (
-          <Box borderRadius="md" bg="gray.200" key={index} p={4}>
-             <NextLink href={`/starship/${result[starship.url]}`} passHref={true}>
-              <Link fontSize="lg" color="blue.500">
-                {starship.name}
-              </Link>
-            </NextLink> 
-          </Box>
-        ))}
-        
-        
-    </div>
-  )
+      <Heading as="h1" size="2xl" mt={8} mb={4}>
+        I am {person.name}. My starships are listed below:
+      </Heading>
+      {starships.map((starship, index) => (
+        <Box
+          key={index}
+          borderRadius="md"
+          bg="gray.200"
+          p={4}
+          mb={4}
+          _hover={{ bg: "gray.300" }}
+        >
+          <NextLink href={`/starship/${result[starship.url]}`} passHref>
+            <Link fontSize="lg" color="blue.500">
+              {starship.name}
+            </Link>
+          </NextLink>
+        </Box>
+      ))}
+    </Box>
+  );
 };
-
 
 export async function getServerSideProps({ params }) {
   const { data: person } = await getPeopleByID(params.id);
@@ -52,5 +52,5 @@ export async function getServerSideProps({ params }) {
   };
 }
 
+export default People;
 
-export default people;
