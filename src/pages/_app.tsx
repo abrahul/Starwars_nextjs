@@ -5,9 +5,7 @@ import React from "react";
 function MyApp({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
-      <Container maxW="xl" pt={8}>
-        <Component {...pageProps} />
-      </Container>
+        <Component {...pageProps} />   
     </ChakraProvider>
   );
 }
